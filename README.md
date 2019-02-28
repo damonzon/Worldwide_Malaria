@@ -1,5 +1,7 @@
 # Worldwide_Malaria
 
+Rub these commands from RStudio to run the App.
+
 library(shiny)
 
 library(shinydashboard)
