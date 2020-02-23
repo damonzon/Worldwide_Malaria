@@ -1,15 +1,11 @@
 # Worldwide_Malaria
 
-Run these commands from RStudio to run the App.
+Run this one-line command in a script file in RStudio to run the Shiny App.
 
-library(shiny)
+source("https://raw.github.com/Damonzon/Worldwide_Malaria/master/Shiny_Malaria.R")
 
-library(shinydashboard)
+Good Luck!
 
-library(data.table)
 
-library(ggplot2)
 
-library(plotly)
 
-shiny::runGitHub("Worldwide_Malaria", "damonzon")
