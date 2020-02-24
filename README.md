@@ -6,6 +6,8 @@ source("https://raw.github.com/Damonzon/Worldwide_Malaria/master/Shiny_Malaria.R
 
 Good Luck!
 
+And if your audience is sleeping or texting during your presentations, get their attention with colorful ggplots.
+
 
 
 
