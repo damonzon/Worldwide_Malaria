@@ -1,0 +1,95 @@
+---
+title: "GGplots"
+author: "Patrick Kelly"
+date: "2/24/2020"
+output: html_document
+---
+
+### No more boring presentations
+
+This a very powerfull R package for visualization. But the coding for great results is not always easy.
+
+Here are two examples inspired by Roger Peng's code from the website "Simply Statistics". He is a professor in the biostatistics at the Johns Hopkins Bloomberg School of Public Health.
+
+[Click Here](https://simplystatistics.org/2019/08/28/you-can-replicate-almost-any-plot-with-ggplot2/)"Simply Statistics"
+
+### My setup
+
+macOS Catalina 10.15.3
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+
+RStudio Version 1.1.463
+
+```{r}
+list.of.packages = c("tidyverse","ggplot2",
+    "countrycode","devtools","linguisticsdown","htmlwidgets")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+ suppressMessages(library(tidyverse))
+ suppressMessages(library(ggplot2))
+ suppressMessages(library(countrycode))
+suppressMessages(library(linguisticsdown))
+suppressMessages(library(htmlwidgets))
+
+```
+
+### I couldn't install "ggflags" from CRAN
+
+Github to the rescue
+
+```{r}
+# devtools::install_github("rensa/ggflags")
+suppressMessages(library(ggflags))
+```
+```{r}
+dat <- dplyr::tibble(country = toupper(c("Burkina Faso", "Mali", "Sierra Leone", "Ghana", "Gambia", "Mauritania", "Senegal")),
+  count = c(412, 384, 378, 271, 125, 69, 54),
+  label = c(as.character(c(412, 384, 378, 271, 125, 69, 54))),#, "No Data"),
+  code = c("bf", "ml", "sl", "gh", "gm", "mr", "sn"))
+
+dat %>% mutate(country = reorder(country, -count)) %>%
+  ggplot(aes(country, count, label = label)) +
+  geom_bar(stat = "identity", fill = "red", color="black") +
+  geom_text(nudge_y = 30, color = "black", size = 8) +
+  geom_flag(y = -40, aes(country = code), size = 12) +
+  scale_y_continuous(breaks = c(0, 100, 200, 300, 400,500), limits = c(0,500)) +   
+  geom_text(aes(3.00, 500, label = "Source: WHO Data")) + 
+  ggtitle(toupper("Malaria Incidence: Cases per 1000 at risk in 2016")) + 
+  theme(plot.title = element_text(hjust = 1)) +
+  xlab("") + 
+  # ylab("Cases per 1000 at risk") +
+  ggthemes::theme_economist() +
+  theme(axis.text.x = element_text(size = 8, vjust = -16),
+    axis.ticks.x = element_blank(),
+    axis.line.x = element_blank(),
+    plot.margin = unit(c(1,1,1,1), "cm"))
+```
+
+### Another Example with the same data
+
+```{r}
+dat <- dplyr::tibble(country = toupper(c("Burkina Faso", "Mali", "Sierra Leone", "Ghana", "Gambia", "Mauritania", "Senegal")),
+      count = c(412, 384, 378, 271, 125, 69, 54))
+
+dat %>% 
+  mutate(country = reorder(country, count)) %>%
+  ggplot(aes(country, count, label = count)) +   
+  geom_bar(stat = "identity", color="black", fill = "steelblue", width = 0.5) +
+  geom_text(nudge_y = 20,  size = 5) +
+  # xlab("") + ylab("") + 
+  ggtitle(toupper("Malaria Incidence: Cases per 1000 at risk in 2016")) + 
+  theme_minimal() +
+  theme(panel.grid.major =element_blank(), panel.grid.minor = element_blank(), 
+        axis.text.x = element_blank(),
+        axis.ticks.length = unit(-0.4, "cm")) + 
+  coord_flip() 
+```
+
+### Happy Plotting
+
+![](BlueOwl.png)
+```{r, echo=FALSE}
+flag <- "Mali Flag2.gif"
+include_graphics2(flag)
+```
